@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Frontend-only Finance Tracker</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; color: #1f2933; background: #f7f7f5; }
+    .muted { color: #6b7280; font-size: .9rem; }
+    form { display: flex; gap: .5rem; margin: 1.25rem 0; }
+    input, select, button { font: inherit; padding: .45rem .6rem; border: 1px solid #d1d5db; border-radius: 6px; }
+    input[name=note] { flex: 1; }
+    button { background: #1f2933; color: #fff; border: none; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li { display: flex; justify-content: space-between; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: .6rem 1rem; margin-bottom: .4rem; }
+    .income { color: #15803d; }
+    .expense { color: #b91c1c; }
+    #balance { font-size: 1.4rem; }
+  </style>
+</head>
+<body>
+  <h1>Finance Tracker</h1>
+  <p class="muted">Frontend only: the data lives in a JavaScript array in this browser tab.</p>
+
+  <p>Balance: <strong id="balance">0</strong></p>
+
+  <form id="tx-form">
+    <select name="type">
+      <option value="expense">Expense</option>
+      <option value="income">Income</option>
+    </select>
+    <input name="amount" type="number" placeholder="Amount" required />
+    <input name="note" placeholder="Note" required />
+    <button>Add</button>
+  </form>
+
+  <ul id="list"></ul>
+
+  <script>
+    // All our data: a plain JavaScript array.
+    // It exists only while this page is open. Refresh = the script runs again from scratch.
+    const transactions = [
+      { type: "income", amount: 50000, note: "October salary" },
+      { type: "expense", amount: 450, note: "Momo with friends" },
+    ];
+
+    const list = document.querySelector("#list");
+    const form = document.querySelector("#tx-form");
+
+    function render() {
+      list.innerHTML = "";
+      for (const t of transactions) {
+        const li = document.createElement("li");
+        const note = document.createElement("span");
+        note.textContent = t.note;
+        const amount = document.createElement("strong");
+        amount.className = t.type;
+        amount.textContent = (t.type === "expense" ? "-" : "+") + t.amount;
+        li.append(note, amount);
+        list.append(li);
+      }
+
+      const balance = transactions.reduce((sum, t) => sum + (t.type === "income" ? t.amount : -t.amount), 0);
+      document.querySelector("#balance").textContent = balance;
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      transactions.push({ type: data.type, amount: Number(data.amount), note: data.note });
+      form.reset();
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

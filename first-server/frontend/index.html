@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finance Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Finance Tracker</h1>
+  <p class="muted">Frontend on :5500 → Backend API on :3000</p>
+
+  <section class="cards">
+    <div class="card"><span>Income</span><strong id="income">–</strong></div>
+    <div class="card"><span>Expense</span><strong id="expense">–</strong></div>
+    <div class="card"><span>Balance</span><strong id="balance">–</strong></div>
+  </section>
+
+  <form id="tx-form">
+    <select name="type">
+      <option value="expense">Expense</option>
+      <option value="income">Income</option>
+    </select>
+    <input name="amount" type="number" step="0.01" placeholder="Amount" />
+    <input name="category" placeholder="Category" />
+    <input name="note" placeholder="Note" />
+    <input name="date" type="date" />
+    <button>Add</button>
+  </form>
+  <p id="error"></p>
+
+  <ul id="list"></ul>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

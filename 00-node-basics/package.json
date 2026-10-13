@@ -1,0 +1,10 @@
+{
+    "name": "node-basics",
+    "version": "1.0.0",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "arrays": "node array-functions.js",
+        "classwork": "node classwork.js 1 2 3 4 5"
+    }
+}
